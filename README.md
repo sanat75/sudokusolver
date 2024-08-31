@@ -1,62 +1,56 @@
-# Sudoku-Suite
-A C++17-compatible header that provides useful functions which help with the solving, validation and generation of 9x9 Sudoku puzzles. 
+# Sudoku Suite
+
+A **C++17**-compatible library that provides convenient functions for solving, validating, and generating **9x9 Sudoku puzzles**. Designed for simplicity and ease of use in projects requiring Sudoku puzzle manipulation.
+
+**Created by: Sanat Chaudhary**
+
+---
 
 ## Contents
-* [Usage](#usage)
-* [Documentation](#documentation)
-* [Examples](#examples)
-    * [Solving and validating a Sudoku puzzle](#solving-and-validating-sudoku-puzzle)
-    * [Generating a Sudoku puzzle](#generating-a-sudoku-puzzle)
-    * [Initialising and reusing Grid objects](#initialising-and-reusing-grid-objects)
-    * [Reading Sudoku puzzles from a file](#reading-sudoku-puzzles-from-a-file)
-    * [Operations on Grid objects](#operations-on-grid-objects)
-* [How It Works](#sudoku-solver---how-it-works)
-* [Running Tests](#running-tests)
-* [Acknowledgements](#acknowledgements)
-* [Tools](#tools)
 
-## Usage 
+- [Usage](#usage)
+- [Documentation](#documentation)
+- [Examples](#examples)
+  - [Solving and Validating a Sudoku Puzzle](#solving-and-validating-a-sudoku-puzzle)
+  - [Generating a Sudoku Puzzle](#generating-a-sudoku-puzzle)
+  - [Initializing and Reusing Grid Objects](#initializing-and-reusing-grid-objects)
+  - [Reading Sudoku Puzzles from a File](#reading-sudoku-puzzles-from-a-file)
+  - [Operations on Grid Objects](#operations-on-grid-objects)
+- [How It Works](#how-it-works)
+- [Running Tests](#running-tests)
 
-* Download the files in the `src/` directory and move it to your project's directory.
-* Include the required header files, as shown below in the examples, and use the functions you need!
-* **NOTE:** The code is incompatible with pre-C++17 versions. While compiling, you'll have to compile with the `--std=c++17` flag.
-    * For example; when using the clang compiler, the compile command would be `c++ --std=c++17 /path/to/file.cpp`
+
+## Usage
+
+1. Download the files in the `src/` directory.
+2. Move them to your project folder.
+3. Include the necessary headers in your code (examples below).
+4. **Note:** Ensure you are using C++17 or above. Use the `--std=c++17` flag during compilation, like so:
+
+    ```bash
+    c++ --std=c++17 /path/to/file.cpp
+    ```
 
 ## Documentation
 
-There are **three functions** that Sudoku-Suite provides the developer, along with **one class**. They are as follows:-
+The Sudoku Suite offers three main functions and one class:
 
-* `Grid`
-    *  An object that represents a 9x9 Sudoku grid. The `Grid` object does not validate the grid in any way, i.e, it only holds the grid and values inside it.
-    * While initialising, if the given values are invalid, an `std::invalid_argument` exception is thrown.
-    * *Check out the examples below to see how we can initialise and use this object!*
-* `void solve(Grid *grid)`
-    *  A function that takes in a pointer to a `Grid` object and solves the Sudoku puzzle present in it. Returns nothing.
-    * If the puzzle cannot be solved, a `std::logic_error` exception is thrown.
-* `bool is_valid_solution(Grid &grid)`
-    *  A function that takes in a `Grid` object and returns a `bool` with a value of `true` if the `Grid` object contains a finished and valid Sudoku solution. 
-* `Grid generate_puzzle()`
-    *  A function that takes in nothing and returns a `Grid` object containing an unfinished Sudoku puzzle.
+- **`Grid`**: Represents a 9x9 Sudoku grid. Handles storage but doesn't validate correctness on its own.
+- **`void solve(Grid *grid)`**: Solves the Sudoku puzzle in the provided grid.
+- **`bool is_valid_solution(Grid &grid)`**: Checks if a grid contains a valid and complete solution.
+- **`Grid generate_puzzle()`**: Generates a new, unfinished Sudoku puzzle.
 
-## Examples
 
-**NOTE:** The following examples are also present in the repository in the `examples/` directory.
+### Solving and Validating a Sudoku Puzzle
 
-* [Solving and validating a Sudoku puzzle](#solving-and-validating-sudoku-puzzle)
-* [Generating a Sudoku puzzle](#generating-a-sudoku-puzzle)
-* [Initialising and reusing Grid objects](#initialising-and-reusing-grid-objects)
-* [Reading Sudoku puzzles from a file](#reading-sudoku-puzzles-from-a-file)
-* [Operations on Grid objects](#operations-on-grid-objects)
-
-#### Solving and validating Sudoku puzzle
-```
+```cpp
 #include<iostream>
 #include"/path/to/src/sudoku_solver.h"
 #include"/path/to/src/sudoku_validator.h"
 
 int main() {
-    sudoku::Grid grid({{
-        {{ 0, 0, 0, 0, 0, 0, 6, 8, 0 }}, // The 0s represent blank cells.
+    sudoku::Grid grid({
+        {{ 0, 0, 0, 0, 0, 0, 6, 8, 0 }},
         {{ 0, 0, 0, 0, 7, 3, 0, 0, 9 }},
         {{ 3, 0, 9, 0, 0, 0, 0, 4, 5 }},
         {{ 4, 9, 0, 0, 0, 0, 0, 0, 0 }},
@@ -65,7 +59,7 @@ int main() {
         {{ 9, 6, 0, 0, 0, 0, 3, 0, 8 }},
         {{ 7, 0, 0, 6, 8, 0, 0, 0, 0 }},
         {{ 0, 2, 8, 0, 0, 0, 0, 0, 0 }}
-    }});
+    });
 
     sudoku::solve(&grid);
 
@@ -76,10 +70,7 @@ int main() {
 
     return 0;
 }
-```
-
 #### Generating a Sudoku puzzle 
-```
 #include<iostream>
 #include"/path/to/src/sudoku_generator.h"
 
@@ -89,10 +80,9 @@ int main() {
 
     return 0;
 }
-```
+
 
 #### Initialising and reusing Grid objects 
-```
 #include<iostream>
 #include"/path/to/src/grid.h"
 
@@ -147,12 +137,11 @@ int main() {
 
     return 0;
 }
-```
+
 
 #### Reading Sudoku puzzles from a file 
 
-File: `sample1.txt`
-```
+File: sample1.txt
 5 3 0 0 7 0 0 0 0
 6 0 0 1 9 5 0 0 0
 0 9 8 0 0 0 0 6 0
@@ -162,9 +151,8 @@ File: `sample1.txt`
 0 6 0 0 0 0 2 8 0
 0 0 0 4 1 9 0 0 5
 0 0 0 0 8 0 0 7 9
-```
 
-```
+
 #include<iostream>
 #include"/path/to/src/grid.h"
 
@@ -181,10 +169,9 @@ int main() {
 
     return 0;
 }
-```
+
 
 #### Operations on Grid objects 
-```
 #include<iostream>
 #include"/path/to/src/grid.h"
 
@@ -230,6 +217,8 @@ int main() {
 }
 ```
 
+
+
 ### Sudoku Solver - How It Works
 This particular algorithm employs the use of backtracking, one of the more common methods to solve Sudoku puzzles. I've written a simple algorithm to give an idea of how the program works.
 
@@ -243,13 +232,5 @@ This particular algorithm employs the use of backtracking, one of the more commo
 8. Stop.
 
 ## Running Tests
-* To run the tests, enter `c++ --std=c++17 tests/test_sudoku_suite.cpp` and then run the executable produced.
+* To run the tests, enter c++ --std=c++17 tests/test_sudoku_suite.cpp and then run the executable produced.
 
-## Acknowledgements
-
-* Shriram R - Idea Inspiration
-* Aravind B - Puzzle Display Design Ideas
-
-## Tools
-* Vim Editor
-* Clang C++ Compiler
